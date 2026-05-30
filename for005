@@ -1,0 +1,11 @@
+ &files wffile='Z30A80' /
+ &force name='Sly4', pairing='VDI'/
+ &main mprint=10,mplot=10,
+  mrest=100000,writeselect='r',
+  imode=1,tfft=T,nof=0 /
+ &grid nx=24,ny=24,nz=24,dx=1.0,dy=1.0,dz=1.0,
+	periodic=F /
+ &static nprot=8, nneut=8, nlambda=1
+  radinx=3.1,radiny=3.1,radinz=3.1,
+  x0dmp=0.40,e0dmp=100.0,tdiag=T,tlarge=F,
+  maxiter=500,serr=1D-4,b_d17=0.00/
