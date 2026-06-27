@@ -120,7 +120,8 @@ MODULE Params
   REAL(db) :: b_d17!Magnetic field
   integer:: niter
   real(db) :: C_0=55.0D0, C_1=-30.0D0
-  real(db) :: a0=-322.0,a1=15.75,a2=19.63,a3=715.0,alpha=1.0,a4=0.0
+  !real(db) :: a0=-465.2424,a1=16.25,a2=12.875,a3=488.29725,alpha=1.0/3.0,a4=0.0 !SY1
+  real(db) :: a0=-322.0,a1=15.75,a2=19.63,a3=715.0,alpha=1.0,a4=0.0 !SLL4
   real(db)::h2ml=17.46
   INTEGER  :: maxiter          !< maximum number of iterations allowed.
   REAL(db) :: serr             !< convergence criterion. Iterations are stopped
