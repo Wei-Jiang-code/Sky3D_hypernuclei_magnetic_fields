@@ -260,8 +260,8 @@ CONTAINS
    rho_old=0.0D0
    tau_old=0.0D0
 
-wocc(npmin(3):npsi(3)) = 0.0D0
-wocc(npmin(3)+2) = 1.0D0
+!wocc(npmin(3):npsi(3)) = 0.0D0
+!wocc(npmin(3)+2) = 1.0D0
 
     IF(trestart) THEN
        firstiter=iter+1
@@ -373,6 +373,7 @@ wocc(npmin(3)+2) = 1.0D0
        ENDIF
 
 if(((iter==maxiter).or.(sumflu/nstmax<serr.AND.(iter>1))).and.prho) then
+!compute wq
 do iq=1,2
   DO iz = 1, nz
   DO iy = 1, ny
@@ -386,32 +387,26 @@ do iq=1,2
   END DO
 END DO       
 enddo
-
-if(b_d17<10) then
-   WRITE(fname,'(A,f4.2,A)') 'wq_n', b_d17, '.txt'
-else 
-   WRITE(fname,'(A,f5.2,A)') 'wq_n', b_d17, '.txt'
-endif
+! printed nneut polarization
+WRITE(fname,'(I0,A,I0,A,F0.2,A)') &
+     nprot, '_', nneut, '_wq_n', b_d17, '.txt'
 
 OPEN(UNIT=99, FILE=fname, STATUS='REPLACE', FORM='FORMATTED')
-DO iy = 1, ny
+DO iz = 1, nz
   DO ix = 1, nx
-    WRITE(99,'(3F12.6)') x(ix), y(iy), wq(ix,iy,nz/2,1)
+    WRITE(99,'(3F12.6)') x(ix), z(iz), wq(ix,ny/2,iz,1)
   END DO
 END DO
 CLOSE(99)
 
-if(b_d17<10) then
-WRITE(fname,'(A,f4.2,A)') 'wq_p', b_d17, '.txt'
-else 
-WRITE(fname,'(A,f5.2,A)') 'wq_p', b_d17, '.txt'
-endif
-
+! printed proton polarization
+WRITE(fname,'(I0,A,I0,A,F0.2,A)') &
+     nprot, '_', nneut, '_wq_p', b_d17, '.txt'
 
 OPEN(UNIT=99, FILE=fname, STATUS='REPLACE', FORM='FORMATTED')
-DO iy = 1, ny
+DO iz = 1, nz
   DO ix = 1, nx
-    WRITE(99,'(3F12.6)') x(ix), y(iy), wq(ix,iy,nz/2,2)
+    WRITE(99,'(3F12.6)') x(ix), z(iz), wq(ix,ny/2,iz,2)
   END DO
 END DO
 CLOSE(99)
@@ -419,29 +414,24 @@ CLOSE(99)
 
 
 ! printed N density
-if(b_d17<10) then
-   WRITE(fnameN,'(A,f4.2,A)') 'rhoN', b_d17, '.txt'
-else 
-   WRITE(fnameN,'(A,f5.2,A)') 'rhoN', b_d17, '.txt'
-endif
+WRITE(fnameN,'(I0,A,I0,A,F0.2,A)') &
+     nprot, '_', nneut, '_rhoN', b_d17, '.txt'
+
 OPEN(UNIT=99, FILE=fnameN, STATUS='REPLACE', FORM='FORMATTED')
-DO iy = 1, ny
+DO iz = 1, nz
   DO ix = 1, nx
-    WRITE(99,'(3F12.6)') x(ix), y(iy), rho(ix,iy,nz/2,1)+rho(ix,iy,nz/2,2)
+    WRITE(99,'(3F12.6)') x(ix), z(iz), rho(ix,ny/2,iz,1)+rho(ix,ny/2,iz,2)
   END DO
 END DO
 CLOSE(99)
 
 ! printed lambda density
-if(b_d17<10) then
-   WRITE(fnameL,'(A,f4.2,A)') 'rho_Lambda', b_d17, '.txt'
-else 
-   WRITE(fnameL,'(A,f5.2,A)') 'rho_Lambda', b_d17, '.txt'
-endif
+WRITE(fnameL,'(I0,A,I0,A,F0.2,A)') &
+     nprot, '_', nneut, '_rho_Lambda', b_d17, '.txt'
 OPEN(UNIT=99, FILE=fnameL, STATUS='REPLACE', FORM='FORMATTED')
-DO iy = 1, ny
+DO iz = 1, nz
   DO ix = 1, nx
-    WRITE(99,'(3F12.6)') x(ix), y(iy), rho(ix,iy,nz/2,3)
+    WRITE(99,'(3F12.6)') x(ix), z(iz), rho(ix,ny/2,iz,3)
   END DO
 END DO
 CLOSE(99)
@@ -485,11 +475,8 @@ do bin = 2, n_r
 end do
 
 ! 输出文件名
-if(b_d17 < 10) then
-  WRITE(fnameLr,'(A,f4.2,A)') 'lambda_r', b_d17, '.txt'
-else
-  WRITE(fnameLr,'(A,f5.2,A)') 'lambda_r', b_d17, '.txt'
-end if
+WRITE(fnameLr,'(I0,A,I0,A,F0.2,A)') &
+     nprot, '_', nneut, '_lambda_r', b_d17, '.txt'
 
 ! 输出两列 r, rho
 OPEN(UNIT=99, FILE=fnameLr, STATUS='REPLACE', FORM='FORMATTED')
